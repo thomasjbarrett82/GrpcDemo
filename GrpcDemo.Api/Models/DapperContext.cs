@@ -1,7 +1,8 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System.Data;
 
-namespace GrpcDemo.Service.Data {
+namespace GrpcDemo.Api.Data {
     public class DapperContext {
         private readonly IConfiguration _configuration;
         private readonly string _connectionString;

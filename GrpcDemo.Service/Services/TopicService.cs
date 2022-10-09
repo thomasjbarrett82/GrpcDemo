@@ -2,6 +2,15 @@
 using GrpcDemo.Service.Models;
 
 namespace GrpcDemo.Service.Services {
+    public interface ITopicService {
+        /// <summary>
+        /// Update list of topics
+        /// </summary>
+        /// <param name="topics"></param>
+        /// <returns></returns>
+        Task<bool> UpdateTopics(IList<Topic>? topics);
+    }
+
     public class TopicService : ITopicService {
         private readonly ITopicRepo _topicRepo;
 

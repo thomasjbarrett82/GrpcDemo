@@ -6,7 +6,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5047;https://localhost:7047"
+      "applicationUrl": "https://localhost:7047"
     }
   }
 }

@@ -1,6 +1,6 @@
-﻿using GrpcDemo.Service.Models;
+﻿using GrpcDemo.Api.Models;
 
-namespace GrpcDemo.Service.Data {
+namespace GrpcDemo.Api.Interfaces {
     public interface IMessageQueueRepo {
         /// <summary>
         /// Async get message from the queue

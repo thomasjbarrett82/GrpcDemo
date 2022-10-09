@@ -1,11 +1,11 @@
 ﻿using Grpc.Core;
 using GrpcDemo.Api;
-using GrpcDemo.Service.Data;
-using GrpcDemo.Service.Models;
+using GrpcDemo.Api.Interfaces;
+using GrpcDemo.Api.Models;
 using Hangfire;
 
 namespace GrpcDemo.Service.Services {
-    public class PublisherService : Publisher.PublisherBase {
+    public class PublisherService : Publisher.PublisherBase, IPubServer {
         private readonly ILogger<PublisherService> _logger;
         private readonly IMessageQueueRepo _messageRepo;
         private readonly IBackgroundJobClient _jobClient;
@@ -26,7 +26,7 @@ namespace GrpcDemo.Service.Services {
             _logger.LogInformation($"Received topic {request.Topic} and message {request.Dto}."); // TODO aspect logging
 
             try {
-                var message = new MessageQueue { 
+                var message = new MessageQueue {
                     Id = 0,
                     Topic = request.Topic,
                     DTO = request.Dto,

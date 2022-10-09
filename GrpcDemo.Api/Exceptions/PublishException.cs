@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace GrpcDemo.Service.Exceptions {
+namespace GrpcDemo.Api.Exceptions {
     public class PublishException : InvalidOperationException {
         public PublishException() {
         }

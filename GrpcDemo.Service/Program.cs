@@ -1,3 +1,6 @@
+using GrpcDemo.Api.Clients;
+using GrpcDemo.Api.Data;
+using GrpcDemo.Api.Interfaces;
 using GrpcDemo.Api.Topics;
 using GrpcDemo.Service.Data;
 using GrpcDemo.Service.Models;
@@ -33,6 +36,9 @@ namespace GrpcDemo.Service {
             builder.Services.AddScoped<IMessageQueueRepo, MessageQueueRepo>();
             builder.Services.AddScoped<ISubscriptionRepo, SubscriptionRepo>();
             builder.Services.AddScoped<ITopicRepo, TopicRepo>();
+
+            builder.Services.AddScoped<IPubServer, PublisherService>();
+            builder.Services.AddScoped<IPubClient, PubClient>();
 
             builder.Services.AddScoped<IDistributionService, DistributionService>();
             builder.Services.AddScoped<ISubscriberService, SubscriberService>();

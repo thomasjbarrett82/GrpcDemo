@@ -65,7 +65,7 @@
     <Build Include="dbo\Tables\Appointment.sql" />
     <Build Include="dbo\StoredProcedures\GetAppointment.sql" />
     <Build Include="dbo\StoredProcedures\RemoveAppointment.sql" />
-    <Build Include="dbo\StoredProcedures\UpdatePatient.sql" />
+    <Build Include="dbo\StoredProcedures\UpdateAppointment.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ApptDemo.SqlDatabase.local.publish.xml" />

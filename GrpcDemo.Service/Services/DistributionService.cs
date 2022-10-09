@@ -1,8 +1,17 @@
-﻿using GrpcDemo.Service.Clients;
+﻿using GrpcDemo.Api.Interfaces;
 using GrpcDemo.Service.Data;
 using Hangfire;
 
 namespace GrpcDemo.Service.Services {
+    public interface IDistributionService {
+        /// <summary>
+        /// Distribute a message to all active topic subscribers.
+        /// </summary>
+        /// <param name="messageId"></param>
+        /// <returns></returns>
+        Task<bool> DistributeMessage(long messageId, string topic);
+    }
+
     public class DistributionService : IDistributionService {
         private readonly ILogger<DistributionService> _logger;
         private readonly ISubscriptionRepo _subsRepo;
@@ -23,7 +32,7 @@ namespace GrpcDemo.Service.Services {
             }
 
             foreach (var subscription in subscriptions) {
-                _jobClient.Enqueue<IPub>(p => p.PublishAsync(messageId, subscription.Host));
+                _jobClient.Enqueue<IPubClient>(p => p.PublishAsync(messageId, subscription.Host));
             }
 
             return true;

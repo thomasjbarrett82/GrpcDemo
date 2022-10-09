@@ -1,9 +1,10 @@
 ﻿using Dapper;
-using GrpcDemo.Service.Constants;
-using GrpcDemo.Service.Models;
+using GrpcDemo.Api.Constants;
+using GrpcDemo.Api.Interfaces;
+using GrpcDemo.Api.Models;
 using System.Data;
 
-namespace GrpcDemo.Service.Data {
+namespace GrpcDemo.Api.Data {
     public class MessageQueueRepo : IMessageQueueRepo {
         private readonly DapperContext _context;
 
@@ -17,14 +18,14 @@ namespace GrpcDemo.Service.Data {
             param.Add("@Topic", mq.Topic);
             param.Add("@DTO", mq.DTO);
             param.Add("@Source", mq.Source);
-            return await db.ExecuteScalarAsync<long>(QueryCommands.AddMessageToQueue, param, commandType: CommandType.StoredProcedure);
+            return await db.ExecuteScalarAsync<long>(MessageCommands.AddMessageToQueue, param, commandType: CommandType.StoredProcedure);
         }
 
         public async Task<MessageQueue> GetMessageQueueAsync(long id) {
             using var db = _context.CreateConnection();
             var param = new DynamicParameters();
             param.Add("@Id", id);
-            return await db.QueryFirstOrDefaultAsync<MessageQueue>(QueryCommands.GetMessageFromQueue, param, commandType: CommandType.StoredProcedure);
+            return await db.QueryFirstOrDefaultAsync<MessageQueue>(MessageCommands.GetMessageFromQueue, param, commandType: CommandType.StoredProcedure);
         }
 
         public Task<bool> RemoveMessageQueueAsync(long id) {

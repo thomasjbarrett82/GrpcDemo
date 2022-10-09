@@ -13,7 +13,7 @@ BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 
-    IF (@Id IS NULL AND COALESCE(@ClinicNumber, '') = '') 
+	IF (@Id IS NULL AND COALESCE(@ClinicNumber, '') = '') 
 		THROW 70001, 'Patient missing ID and Clinic Number.', 1;
 
 	IF (COALESCE(@FullData, '') = '')
