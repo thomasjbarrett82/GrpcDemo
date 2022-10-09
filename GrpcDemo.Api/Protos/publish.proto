@@ -1,0 +1,36 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "GrpcDemo.Api";
+
+package publish;
+
+// publish service definition
+service Publisher {
+	rpc Publish (PublishMessage) returns (PublishResponse);
+	rpc UpdateSubscriberHost (SubscriberHostMessage) returns (PublishResponse);
+	rpc UpdateSubscription (SubscriptionMessage) returns (PublishResponse);
+}
+
+// publish message
+message PublishMessage {
+	string Topic = 1;
+	string Dto = 2;
+	string Source = 3;
+}
+
+message SubscriberHostMessage {
+	string Name = 1;
+	string Host = 2;
+}
+
+message SubscriptionMessage {
+	string Name = 1;
+	string Topic = 2;
+	bool IsActive = 3;
+	// TODO include a Version property to handle changes over time
+}
+
+// publish response
+message PublishResponse {
+	bool Received = 1;
+}
