@@ -1,6 +1,6 @@
 ﻿namespace GrpcDemo.Api.Topics {
     public interface INewAppointment {
-        string EpicId { get; set; }
+        string ClinicNumber { get; set; }
         DateTime StartTime { get; set; }
     }
 }

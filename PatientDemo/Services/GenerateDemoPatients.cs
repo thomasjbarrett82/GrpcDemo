@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using GrpcDemo.Api.Constants;
 using GrpcDemo.Api.Data;
 using GrpcDemo.Api.Interfaces;
 using GrpcDemo.Api.Models;
@@ -14,15 +15,13 @@ namespace PatientDemo.Services {
         Task<bool> GeneratePatientMerges();
     }
 
-    public class GenerateDemoData : IGenerateDemoData {
-        private readonly IConfiguration _config;
+    public class GenerateDemoPatients : IGenerateDemoData {
         private readonly DapperContext _context;
         private readonly IBackgroundJobClient _client;
         private readonly IMessageQueueRepo _msgRepo;
         private readonly IPatientRepo _patientRepo;
 
-        public GenerateDemoData(IConfiguration config, DapperContext context, IBackgroundJobClient client, IMessageQueueRepo msgRepo, IPatientRepo ptRepo) {
-            _config = config;
+        public GenerateDemoPatients(DapperContext context, IBackgroundJobClient client, IMessageQueueRepo msgRepo, IPatientRepo ptRepo) {
             _context = context;
             _client = client;
             _msgRepo = msgRepo;
@@ -55,9 +54,7 @@ namespace PatientDemo.Services {
             };
             var newMsgId = await _msgRepo.AddMessageQueueAsync(msg);
 
-            // queue background job
-            var host = _config.GetValue<string>("PubSubServiceUri");
-            _client.Enqueue<IPubClient>(p => p.PublishAsync(newMsgId, host));
+            _client.Enqueue<IPubClient>(p => p.PublishAsync(newMsgId, Hosts.PubSubServiceUri));
 
             return true;
         }

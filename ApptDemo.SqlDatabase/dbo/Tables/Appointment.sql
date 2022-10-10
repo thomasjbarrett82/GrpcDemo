@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Appointment] /* ApptDemo */
 (
 	[Id] BIGINT IDENTITY(1,1) NOT NULL, 
-	[ClinicNumber] VARCHAR(16) NOT NULL,
+	[PatientId] BIGINT NOT NULL,
 	[FullData] VARCHAR(MAX) NOT NULL, /* full JSON data model */
 	[CreatedBy] VARCHAR(100) NOT NULL,
 	[CreatedOn] DATETIME2 NOT NULL,
@@ -26,8 +26,12 @@ ALTER TABLE [dbo].[Appointment] ADD  CONSTRAINT [DF_Appointment_EditedOn]  DEFAU
 GO
 
 
-CREATE NONCLUSTERED INDEX [IDX_Appointment_ClinicNumber] ON [dbo].[Appointment]
+ALTER TABLE [dbo].[Appointment] ADD CONSTRAINT FK_Appointment_Patient FOREIGN KEY ([PatientId]) REFERENCES [Patient]([Id]);
+GO
+
+
+CREATE NONCLUSTERED INDEX [IDX_Appointment_PatientId] ON [dbo].[Appointment]
 (
-	[ClinicNumber] ASC
+	[PatientId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO

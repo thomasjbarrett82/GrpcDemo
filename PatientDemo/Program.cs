@@ -1,5 +1,6 @@
 using GrpcDemo.Api;
 using GrpcDemo.Api.Clients;
+using GrpcDemo.Api.Constants;
 using GrpcDemo.Api.Data;
 using GrpcDemo.Api.Interfaces;
 using GrpcDemo.Api.Topics;
@@ -39,7 +40,7 @@ namespace PatientDemo {
             builder.Services.AddScoped<IPubServer, PublisherService>();
             builder.Services.AddScoped<IPubClient, PubClient>();
 
-            builder.Services.AddScoped<IGenerateDemoData, GenerateDemoData>();
+            builder.Services.AddScoped<IGenerateDemoData, GenerateDemoPatients>();
 
             builder.Services.AddScoped<IBackgroundJobClient, BackgroundJobClient>();
 
@@ -52,20 +53,18 @@ namespace PatientDemo {
             app.UseHangfireDashboard();
 
             // queue jobs for host and subscriptions
-            var host = builder.Configuration.GetValue<string>("PubSubServiceUri");
-
             var msgHost = new SubscriberHostMessage { 
                 Name = nameof(PatientDemo),
                 Host = builder.Configuration.GetValue<string>("profiles:PatientDemo:applicationUrl")
             };
-            BackgroundJob.Enqueue<IPubClient>(p => p.UpdateSubscriberHostAsync(msgHost, host));
+            BackgroundJob.Enqueue<IPubClient>(p => p.UpdateSubscriberHostAsync(msgHost, Hosts.PubSubServiceUri));
 
             var msgSub = new SubscriptionMessage {
                 Name = nameof(PatientDemo),
                 Topic = nameof(IPatientMerge),
                 IsActive = true
             };
-            BackgroundJob.Enqueue<IPubClient>(p => p.UpdateSubscriptionAsync(msgSub, host));
+            BackgroundJob.Enqueue<IPubClient>(p => p.UpdateSubscriptionAsync(msgSub, Hosts.PubSubServiceUri));
 
             // queue recurring job to generate random patients every minute
             RecurringJob.AddOrUpdate<IGenerateDemoData>("GenerateRandomPatients", g => g.GeneratePatients(), "*/1 * * * *");
